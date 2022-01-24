@@ -6,6 +6,19 @@ const image2 = document.getElementById('image2')
 const image3 = document.getElementById('image3')
 const textBox = document.getElementById('text-box')
 
+let theme = window.localStorage.getItem('theme') || 'light'
+
+window.addEventListener('DOMContentLoaded', (event) => {
+
+  if (theme) {
+    document.documentElement.setAttribute('data-theme', theme)
+    if (theme === 'dark') {
+      toggleSwitch.checked = true
+      darkMode()
+    }
+  }
+});
+
 const setImagesMode = (mode) => {
   image1.src = `img/undraw_feeling_proud_${mode}.svg`
   image2.src = `img/undraw_conceptual_idea_${mode}.svg`
@@ -32,9 +45,11 @@ const lightMode = () => {
 
 const switchTheme = e => {
   if (e.target.checked) {
+    window.localStorage.setItem('theme', 'dark')
     document.documentElement.setAttribute('data-theme', 'dark')
     darkMode()
   } else {
+    window.localStorage.setItem('theme', 'light')
     document.documentElement.setAttribute('data-theme', 'light')
     lightMode()
   }
