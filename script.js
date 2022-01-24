@@ -14,7 +14,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     document.documentElement.setAttribute('data-theme', theme)
     if (theme === 'dark') {
       toggleSwitch.checked = true
-      darkMode()
+      toggleDarkLightMode(true)
     }
   }
 });
@@ -25,33 +25,26 @@ const setImagesMode = (mode) => {
   image3.src = `img/undraw_proud_coder_${mode}.svg`
 }
 
-// Dark mode
-const darkMode = () => {
-  nav.style.backgroundColor = 'rgb(0 0 0 / 50%)'
-  textBox.style.backgroundColor = 'rgb(255 255 255 / 50%)'
-  toggleIcon.children[0].textContent = 'Dark mode'
-  toggleIcon.children[1].classList.replace('fa-sun', 'fa-moon')
-  setImagesMode('dark')
-}
+toggleDarkLightMode = isDark => {
+  nav.style.backgroundColor = isDark ? 'rgb(0 0 0 / 50%)' : 'rgb(255 255 255 / 50%)'
+  textBox.style.backgroundColor = isDark ? 'rgb(255 255 255 / 50%)' : 'rgb(0 0 0 / 50%)'
+  toggleIcon.children[0].textContent = isDark ? 'Dark mode' : 'Light mode'
+  isDark
+    ? toggleIcon.children[1].classList.replace('fa-sun', 'fa-moon')
+    : toggleIcon.children[1].classList.replace('fa-moon', 'fa-sun')
 
-// Light mode
-const lightMode = () => {
-  nav.style.backgroundColor = 'rgb(255 255 255 / 50%)'
-  textBox.style.backgroundColor = 'rgb(0 0 0 / 50%)'
-  toggleIcon.children[0].textContent = 'Light mode'
-  toggleIcon.children[1].classList.replace('fa-moon', 'fa-sun')
-  setImagesMode('light')
+  isDark ? setImagesMode('dark') : setImagesMode('light')
 }
 
 const switchTheme = e => {
   if (e.target.checked) {
     window.localStorage.setItem('theme', 'dark')
     document.documentElement.setAttribute('data-theme', 'dark')
-    darkMode()
+    toggleDarkLightMode(true)
   } else {
     window.localStorage.setItem('theme', 'light')
     document.documentElement.setAttribute('data-theme', 'light')
-    lightMode()
+    toggleDarkLightMode(false)
   }
 }
 
