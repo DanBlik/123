@@ -1,3 +1,8 @@
+// Themes
+const DARK_THEME = 'dark'
+const LIGHT_THEME = 'light'
+
+// Dom elements
 const toggleSwitch = document.querySelector('input[type="checkbox"]')
 const nav = document.getElementById('nav')
 const toggleIcon = document.getElementById('toggle-icon')
@@ -9,7 +14,6 @@ const textBox = document.getElementById('text-box')
 let theme = window.localStorage.getItem('theme') || 'light'
 
 window.addEventListener('DOMContentLoaded', (event) => {
-
   if (theme) {
     document.documentElement.setAttribute('data-theme', theme)
     if (theme === 'dark') {
@@ -25,26 +29,27 @@ const setImagesMode = (mode) => {
   image3.src = `img/undraw_proud_coder_${mode}.svg`
 }
 
-toggleDarkLightMode = isDark => {
-  nav.style.backgroundColor = isDark ? 'rgb(0 0 0 / 50%)' : 'rgb(255 255 255 / 50%)'
-  textBox.style.backgroundColor = isDark ? 'rgb(255 255 255 / 50%)' : 'rgb(0 0 0 / 50%)'
-  toggleIcon.children[0].textContent = isDark ? 'Dark mode' : 'Light mode'
-  isDark
+toggleDarkLightMode = theme => {
+  const isDarkTheme = theme === DARK_THEME
+  nav.style.backgroundColor = isDarkTheme ? 'rgb(0 0 0 / 50%)' : 'rgb(255 255 255 / 50%)'
+  textBox.style.backgroundColor = isDarkTheme ? 'rgb(255 255 255 / 50%)' : 'rgb(0 0 0 / 50%)'
+  toggleIcon.children[0].textContent = isDarkTheme ? 'Dark mode' : 'Light mode'
+  isDarkTheme
     ? toggleIcon.children[1].classList.replace('fa-sun', 'fa-moon')
     : toggleIcon.children[1].classList.replace('fa-moon', 'fa-sun')
 
-  isDark ? setImagesMode('dark') : setImagesMode('light')
+    isDarkTheme ? setImagesMode(DARK_THEME) : setImagesMode(LIGHT_THEME)
 }
 
 const switchTheme = e => {
   if (e.target.checked) {
-    window.localStorage.setItem('theme', 'dark')
-    document.documentElement.setAttribute('data-theme', 'dark')
-    toggleDarkLightMode(true)
+    window.localStorage.setItem('theme', DARK_THEME)
+    document.documentElement.setAttribute('data-theme', DARK_THEME)
+    toggleDarkLightMode(DARK_THEME)
   } else {
-    window.localStorage.setItem('theme', 'light')
-    document.documentElement.setAttribute('data-theme', 'light')
-    toggleDarkLightMode(false)
+    window.localStorage.setItem('theme', LIGHT_THEME)
+    document.documentElement.setAttribute('data-theme', LIGHT_THEME)
+    toggleDarkLightMode(LIGHT_THEME)
   }
 }
 
